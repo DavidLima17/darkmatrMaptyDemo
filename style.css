@@ -60,6 +60,7 @@ a:visited {
   height: 77vh;
   overflow-y: scroll;
   overflow-x: hidden;
+  margin-bottom: 0.5rem;
 }
 
 .workouts::-webkit-scrollbar {
@@ -121,45 +122,37 @@ a:visited {
   gap: 0.5rem;
 }
 
-.workout__delete,
-.workout__edit,
-.workout__delete-all {
+.btn {
   background-color: #111827;
   border: 1px solid transparent;
   border-radius: 0.75rem;
   box-sizing: border-box;
   color: #ffffff;
   cursor: pointer;
-  flex: 0 0 auto;
-  font-family: 'Inter var', ui-sans-serif, system-ui, -apple-system, system-ui,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
-    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  font-size: 1.125rem;
   font-weight: 600;
   line-height: 1.5rem;
   padding: 0.75rem 1.2rem;
   text-align: center;
   text-decoration: none #6b7280 solid;
-  text-decoration-thickness: auto;
   transition-duration: 0.2s;
   transition-property: background-color, border-color, color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  user-select: none;
-  -webkit-user-select: none;
   touch-action: manipulation;
-  width: auto;
+  width: 33%;
+  margin-bottom: 0.5rem;
 }
 
-.workout__delete:focus,
-.workout__edit:focus,
-.workout__delete-all:focus {
+.workout__delete-all {
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.btn:focus {
   box-shadow: none;
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
-.workout__delete:hover,
-.workout__edit:hover,
-.workout__delete-all:hover {
+.btn:hover {
   background-color: #374151;
 
   opacity: 0.75;
@@ -175,6 +168,23 @@ a:visited {
   border-left: rgb(23, 128, 199) 5px solid;
   width: 100%;
   grid-column: span 2 / -1;
+}
+
+.workout__sort-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+}
+
+.sort-by {
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.workout__sort-controls label {
+  font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .form {

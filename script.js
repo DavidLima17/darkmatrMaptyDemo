@@ -62,6 +62,7 @@ class Cycling extends Workout {
 // APPLICATION ARCHITECTURE
 // DOM elements
 const form = document.querySelector('.form');
+const list = document.querySelector('.workouts__list');
 const containerWorkouts = document.querySelector('.workouts');
 const inputType = document.querySelector('.form__input--type');
 const inputDistance = document.querySelector('.form__input--distance');
@@ -69,6 +70,13 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 const deleteAllWorkoutsBtn = document.querySelector('.workout__delete-all');
+
+const sortType = document.querySelector('.workout__sort-type');
+let sortTypeDirection = true;
+const sortDistance = document.querySelector('.workout__sort-distance');
+let sortDistanceDirection = true;
+const sortDuration = document.querySelector('.workout__sort-duration');
+let sortDurationDirection = true;
 
 /**
  * Represents an application for managing workouts.
@@ -94,6 +102,9 @@ class App {
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
     deleteAllWorkoutsBtn.addEventListener('click', this._deleteAllWorkouts.bind(this));
 
+    sortType.addEventListener('click', this._sortType.bind(this));
+    sortDistance.addEventListener('click', this._sortDistance.bind(this));
+    sortDuration.addEventListener('click', this._sortDuration.bind(this));
     // Add event listener to the parent of the workouts
     document.querySelector('.workouts').addEventListener('click', e => {
       const btn = e.target.closest('.workout__delete');
@@ -268,6 +279,7 @@ class App {
    * @param {Object} workout - The workout object to be rendered.
    */
   _renderWorkout(workout) {
+    // console.log(workout);
     let html = `<li class="workout workout--${workout.type}" data-id="${workout.id}">
      <h2 class="workout__title">${workout.description}</h2>
      <div class="workout__details">
@@ -306,10 +318,22 @@ class App {
       </div>`;
 
     html += `<div class="workout__controls">
-              <button class="workout__delete">Delete</button>
-              <button class="workout__edit">Edit</button>
+              <button class="btn workout__delete">Delete</button>
+              <button class="btn workout__edit">Edit</button>
              </div></li>`;
-    form.insertAdjacentHTML('afterend', html);
+    list.insertAdjacentHTML('afterbegin', html);
+  }
+
+  #clearLiElements() {
+    // Assuming `ul` is your unordered list element
+    let children = Array.from(list.children); // Get all children of the ul
+
+    children.forEach(child => {
+      // If the child is not the form and is an li, remove it
+      if (child.tagName.toLowerCase() === 'li') {
+        list.removeChild(child);
+      }
+    });
   }
 
   /**
@@ -415,6 +439,83 @@ class App {
     this.#workouts.splice(index, 1);
     this._setLocalStorage();
     location.reload();
+  }
+
+  // _sortType() {
+  //   let activitiesCopy = this.#workouts.slice();
+  //   activitiesCopy.sort(function (a, b) {
+  //     return a.type.localeCompare(b.type);
+  //   });
+  //   this.#clearLiElements();
+  //   activitiesCopy.forEach(work => {
+  //     this._renderWorkout(work);
+  //   });
+  // }
+
+  // _sortDistance() {
+  //   let activitiesCopy = this.#workouts.slice();
+  //   activitiesCopy.sort(function (a, b) {
+  //     return a.distance - b.distance;
+  //   });
+  //   console.log(this.#workouts);
+  //   console.log(activitiesCopy);
+  //   this.#clearLiElements();
+  //   activitiesCopy.forEach(work => {
+  //     this._renderWorkout(work);
+  //   });
+  // }
+  _sortType() {
+    let activitiesCopy = this.#workouts.slice();
+    if (!sortTypeDirection) {
+      activitiesCopy.sort(function (a, b) {
+        return a.type.localeCompare(b.type);
+      });
+    } else {
+      activitiesCopy.sort(function (a, b) {
+        return b.type.localeCompare(a.type);
+      });
+    }
+    sortTypeDirection = !sortTypeDirection;
+    this.#clearLiElements();
+    activitiesCopy.forEach(work => {
+      this._renderWorkout(work);
+    });
+  }
+
+  _sortDuration() {
+    let activitiesCopy = this.#workouts.slice();
+    if (!sortDurationDirection) {
+      activitiesCopy.sort(function (a, b) {
+        return b.duration - a.duration;
+      });
+    } else {
+      activitiesCopy.sort(function (a, b) {
+        return a.duration - b.duration;
+      });
+    }
+    sortDurationDirection = !sortDurationDirection;
+    this.#clearLiElements();
+    activitiesCopy.forEach(work => {
+      this._renderWorkout(work);
+    });
+  }
+
+  _sortDistance() {
+    let activitiesCopy = this.#workouts.slice();
+    if (!sortDistanceDirection) {
+      activitiesCopy.sort(function (a, b) {
+        return b.distance - a.distance;
+      });
+    } else {
+      activitiesCopy.sort(function (a, b) {
+        return a.distance - b.distance;
+      });
+    }
+    sortDistanceDirection = !sortDistanceDirection;
+    this.#clearLiElements();
+    activitiesCopy.forEach(work => {
+      this._renderWorkout(work);
+    });
   }
 }
 
