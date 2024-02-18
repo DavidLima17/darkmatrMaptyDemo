@@ -117,6 +117,8 @@ a:visited {
 .workout__controls {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
 }
 
 .workout__delete,
